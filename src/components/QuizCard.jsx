@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react"
 
-export default function QuizCard({ questionData }) {
+export default function QuizCard({ 
+    questionData, 
+    onNextQuestion,
+    isLastQuestion
+ }) {
     
     const [hasAnswered, setHasAnswered] = useState(false)
     const [selectedAnswer, setSelectedAnswer] = useState(null)
@@ -58,6 +62,15 @@ export default function QuizCard({ questionData }) {
                     </button>
                 ))}
             </div>
+
+            { hasAnswered && !isLastQuestion && (    
+                <button
+                    onClick={onNextQuestion}
+                    className="mt-5 rounded-2xl bg-white px-4 py-3 font-medium text-slate-950 transition hover:bg-slate-200"
+                >
+                    Nächste Frage
+                </button>
+            )}
         </aside>
     )
 }

@@ -7,7 +7,11 @@ import { lessons } from './data/lessons'
 import { quizQuestions } from './data/quizQuestions'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
+
+  function handleNextQuestion() {
+    setCurrentQuestionIndex((prev) => prev + 1)
+  }
 
   return (
     <>
@@ -20,7 +24,11 @@ function App() {
 
             <div className="flex flex-col gap-6">
               <GoalsCard />
-              <QuizCard questionData={quizQuestions[0]} />
+              <QuizCard 
+                questionData={quizQuestions[currentQuestionIndex]}
+                onNextQuestion={handleNextQuestion}
+                isLastQuestion={currentQuestionIndex === quizQuestions.length - 1} 
+              />
             </div>
           </main>
           
