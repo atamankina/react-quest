@@ -3,18 +3,31 @@ import Header from './components/Header'
 import LessonList from './components/LessonList'
 import GoalsCard from './components/GoalsCard'
 import QuizCard from './components/QuizCard'
+import ProgressCard from './components/ProgressCard'
 import { lessons } from './data/lessons'
 import { quizQuestions } from './data/quizQuestions'
 
 function App() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
+  const [score, setScore] = useState(0)
+  const [answeredCount, setAnsweredCount] = useState(0)
 
   function handleNextQuestion() {
     setCurrentQuestionIndex((prev) => prev + 1)
   }
 
+  function handleAnswerChecked(isCorrect) {
+    setAnsweredCount((prev) => prev + 1)
+
+    if (isCorrect) {
+      setScore((prev) => prev + 1)
+    }
+  }  
+
   function handleResetQuiz() {
     setCurrentQuestionIndex(0)
+    setScore(0)
+    setAnsweredCount(0)
   }
 
   return (
@@ -27,12 +40,17 @@ function App() {
             <LessonList lessons={lessons} />
 
             <div className="flex flex-col gap-6">
-              <GoalsCard />
               <QuizCard 
                 questionData={quizQuestions[currentQuestionIndex]}
                 onNextQuestion={handleNextQuestion}
                 isLastQuestion={currentQuestionIndex === quizQuestions.length - 1} 
                 onResetQuiz={handleResetQuiz}
+                onAnswerChecked={handleAnswerChecked}
+              />
+              <ProgressCard 
+                score={score}
+                answeredCount={answeredCount}
+                totalQuestions={quizQuestions.length}
               />
             </div>
           </main>

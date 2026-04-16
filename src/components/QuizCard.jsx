@@ -4,7 +4,8 @@ export default function QuizCard({
     questionData, 
     onNextQuestion,
     isLastQuestion,
-    onResetQuiz
+    onResetQuiz,
+    onAnswerChecked
  }) {
     
     const [hasAnswered, setHasAnswered] = useState(false)
@@ -22,6 +23,7 @@ export default function QuizCard({
         setHasAnswered(true)
 
         const isCorrect = option === questionData.correctAnswer
+        onAnswerChecked(isCorrect)
     }
 
     function getButtonClasses(option) {
