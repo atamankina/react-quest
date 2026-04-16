@@ -13,6 +13,10 @@ function App() {
     setCurrentQuestionIndex((prev) => prev + 1)
   }
 
+  function handleResetQuiz() {
+    setCurrentQuestionIndex(0)
+  }
+
   return (
     <>
       <div className="min-h-screen bg-slate-950 text-slate-100">
@@ -28,6 +32,7 @@ function App() {
                 questionData={quizQuestions[currentQuestionIndex]}
                 onNextQuestion={handleNextQuestion}
                 isLastQuestion={currentQuestionIndex === quizQuestions.length - 1} 
+                onResetQuiz={handleResetQuiz}
               />
             </div>
           </main>

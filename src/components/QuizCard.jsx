@@ -3,7 +3,8 @@ import { useEffect, useState } from "react"
 export default function QuizCard({ 
     questionData, 
     onNextQuestion,
-    isLastQuestion
+    isLastQuestion,
+    onResetQuiz
  }) {
     
     const [hasAnswered, setHasAnswered] = useState(false)
@@ -63,12 +64,34 @@ export default function QuizCard({
                 ))}
             </div>
 
+            {hasAnswered && (
+                <div className="mt-5 rounded-2xl border border-white/10 bg-slate-950/40 p-4">
+                <p className="font-semibold text-white">
+                    {selectedAnswer === questionData.correctAnswer
+                    ? "Richtig!"
+                    : "Noch nicht ganz richtig."}
+                </p>
+                <p className="mt-2 text-sm leading-6 text-slate-300">
+                    {questionData.explanation}
+                </p>
+                </div>
+            )}
+
             { hasAnswered && !isLastQuestion && (    
                 <button
                     onClick={onNextQuestion}
                     className="mt-5 rounded-2xl bg-white px-4 py-3 font-medium text-slate-950 transition hover:bg-slate-200"
                 >
                     Nächste Frage
+                </button>
+            )}
+
+            { hasAnswered && isLastQuestion && (
+                <button
+                    onClick={onResetQuiz}
+                    className="mt-5 rounded-2xl bg-white px-4 py-3 font-medium text-slate-950 transition hover:bg-slate-200"
+                >
+                    Quiz neu starten
                 </button>
             )}
         </aside>
