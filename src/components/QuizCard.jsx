@@ -9,35 +9,34 @@ export default function QuizCard({
  }) {
     
     const [hasAnswered, setHasAnswered] = useState(false)
-    const [selectedAnswer, setSelectedAnswer] = useState(null)
+    const [selectedAnswerId, setSelectedAnswerId] = useState(null)
 
     useEffect(() => {
-        setHasAnswered(false),
-        setSelectedAnswer(null)
+        setHasAnswered(false)
+        setSelectedAnswerId(null)
     }, [questionData.id])
 
-    function handleAnswerClick(option) {
+    function handleAnswerClick(answer) {
         if (hasAnswered) return
 
-        setSelectedAnswer(option)
+        setSelectedAnswerId(answer.id)
         setHasAnswered(true)
 
-        const isCorrect = option === questionData.correctAnswer
-        onAnswerChecked(isCorrect)
+        onAnswerChecked(answer.isCorrect)
     }
 
-    function getButtonClasses(option) {
+    function getButtonClasses(answer) {
         const baseClasses = "rounded-2xl border px-4 py-3 text-left transition"
 
         if (!hasAnswered) {
             return `${baseClasses} border-white/10 bg-slate-900/70 text-slate-200 hover:border-violet-300/40 hover:bg-slate-900`
         }
 
-        if (option === questionData.correctAnswer) {
+        if (answer.isCorrect) {
             return `${baseClasses} border-emerald-400/40 bg-emerald-400/10 text-emerald-200`
         }
 
-        if (option === selectedAnswer) {
+        if (answer.id === selectedAnswerId) {
             return `${baseClasses} border-rose-400/40 bg-rose-400/10 text-rose-200`
         }
 
@@ -55,13 +54,13 @@ export default function QuizCard({
             </h2>
 
             <div className="mt-5 grid gap-3">
-                {questionData.options.map((option) => (
+                {questionData.answers.map((answer) => (
                     <button 
-                        key={option}
-                        onClick={() => handleAnswerClick(option)}
-                        className={getButtonClasses(option)}
+                        key={answer.id}
+                        onClick={() => handleAnswerClick(answer)}
+                        className={getButtonClasses(answer)}
                     >
-                        {option}
+                        {answer.text}
                     </button>
                 ))}
             </div>
@@ -69,7 +68,7 @@ export default function QuizCard({
             {hasAnswered && (
                 <div className="mt-5 rounded-2xl border border-white/10 bg-slate-950/40 p-4">
                 <p className="font-semibold text-white">
-                    {selectedAnswer === questionData.correctAnswer
+                    {selectedAnswerId.isCorrect
                     ? "Richtig!"
                     : "Noch nicht ganz richtig."}
                 </p>
